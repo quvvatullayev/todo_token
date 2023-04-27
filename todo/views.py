@@ -71,3 +71,10 @@ class Get_todo_by_user(APIView):
         tasks = Task.objects.filter(user = user)
         serializer = TaskSerializer(tasks, many = True)
         return Response(serializer.data)
+    
+class Get_todo_by_id(APIView):
+    authentication_classes = [TokenAuthentication]
+    def get(self, request:Request, pk:int):
+        task = Task.objects.get(id = pk)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
