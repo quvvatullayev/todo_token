@@ -87,6 +87,14 @@ class Get_todo_status_check(APIView):
         serializer = TaskSerializer(tasks, many = True)
         return Response(serializer.data)
     
+class Get_todo_status_uncheck(APIView):
+    authentication_classes = [TokenAuthentication]
+    def get(self, request:Request):
+        user = request.user
+        tasks = Task.objects.filter(user = user, status = False)
+        serializer = TaskSerializer(tasks, many = True)
+        return Response(serializer.data)
+    
 class Updeate_todo_status(APIView):
     authentication_classes = [TokenAuthentication]
     def post(self, request:Request, pk:int):
