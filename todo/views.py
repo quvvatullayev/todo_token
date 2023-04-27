@@ -86,6 +86,14 @@ class Get_todo_status_check(APIView):
         tasks = Task.objects.filter(user = user, status = True)
         serializer = TaskSerializer(tasks, many = True)
         return Response(serializer.data)
+    
+class Updeate_todo_status(APIView):
+    authentication_classes = [TokenAuthentication]
+    def post(self, request:Request, pk:int):
+        task = Task.objects.get(id = pk)
+        task.status = True
+        task.save()
+        return Response({"message":"task status updated"})
 
 
 

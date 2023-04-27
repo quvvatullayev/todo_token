@@ -8,6 +8,7 @@ from .views import (
     Get_todo_by_user,
     Get_todo_by_id,
     Get_todo_status_check,
+    Updeate_todo_status,
 )
 
 urlpatterns = [
@@ -19,4 +20,6 @@ urlpatterns = [
     path('get_todo_by_user/', Get_todo_by_user.as_view()),
     path('get_todo_by_id/<int:pk>/', Get_todo_by_id.as_view()),
     path('get_todo_status_check/', Get_todo_status_check.as_view()),
+    path('update_todo_status/<int:pk>/', Updeate_todo_status.as_view()),
+    
 ]
