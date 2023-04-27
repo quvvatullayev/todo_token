@@ -45,7 +45,7 @@ class Create_todo(APIView):
         
 class Updeate_todo(APIView):
     authentication_classes = [TokenAuthentication]
-    def put(self, request:Request, pk:int):
+    def post(self, request:Request, pk:int):
         data = request.data
         user = request.user
         data["user"] = user.id
@@ -56,3 +56,10 @@ class Updeate_todo(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+        
+class Delete_todo(APIView):
+    authentication_classes = [TokenAuthentication]
+    def post(self, request:Request, pk:int):
+        task = Task.objects.get(id = pk)
+        task.delete()
+        return Response({"message":"task deleted"})
