@@ -63,3 +63,11 @@ class Delete_todo(APIView):
         task = Task.objects.get(id = pk)
         task.delete()
         return Response({"message":"task deleted"})
+    
+class Get_todo_by_user(APIView):
+    authentication_classes = [TokenAuthentication]
+    def get(self, request:Request):
+        user = request.user
+        tasks = Task.objects.filter(user = user)
+        serializer = TaskSerializer(tasks, many = True)
+        return Response(serializer.data)

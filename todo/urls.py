@@ -5,6 +5,7 @@ from .views import (
     Create_todo,
     Updeate_todo,
     Delete_todo,
+    Get_todo_by_user,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('create_todo/', Create_todo.as_view()),
     path('update_todo/<int:pk>/', Updeate_todo.as_view()),
     path('delete_todo/<int:pk>/', Delete_todo.as_view()),
+    path('get_todo_by_user/', Get_todo_by_user.as_view()),
 ]
