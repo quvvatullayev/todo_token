@@ -3,7 +3,6 @@ from .models import Task
 from django.contrib.auth.models import User
 
 class TaskSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = Task
         fields = ('id', 'task', 'description', 'status', 'created_at', 'updated_at', 'user')

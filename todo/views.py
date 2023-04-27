@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 from .models import Task
 from .serializer import TaskSerializer, UserSerializer
 from rest_framework import status
@@ -28,4 +29,16 @@ class Login_user(APIView):
             return Response({"token":token.key})
         else:
             return Response({"user":"user not found"})
-
+        
+class Create_todo(APIView):
+    authentication_classes = [TokenAuthentication]
+    def post(self, request:Request):
+        data = request.data
+        user = request.user
+        data["user"] = user.id
+        serializer = TaskSerializer(data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
