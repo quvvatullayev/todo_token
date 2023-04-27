@@ -42,3 +42,17 @@ class Create_todo(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+        
+class Updeate_todo(APIView):
+    authentication_classes = [TokenAuthentication]
+    def put(self, request:Request, pk:int):
+        data = request.data
+        user = request.user
+        data["user"] = user.id
+        task = Task.objects.get(id = pk)
+        serializer = TaskSerializer(instance = task, data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
