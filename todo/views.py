@@ -11,9 +11,21 @@ class CreateUser(APIView):
     def post(self, request:Request):
         username = request.data.get('username')
         if User.objects.filter(username = username):
-            return Response({"user":"user in site"})
+            return Response({"user":"user already exist"})
         else:
             password = request.data.get('password')
             user = User.objects.create(username=username, password=password)
             token = Token.objects.create(user = user)
             return Response({"token":token.key})
+        
+class Login_user(APIView):
+    def post(self, request:Request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        if User.objects.filter(username = username):
+            user = User.objects.get(username = username)
+            token, uniq = Token.objects.get_or_create(user = user)
+            return Response({"token":token.key})
+        else:
+            return Response({"user":"user not found"})
+
